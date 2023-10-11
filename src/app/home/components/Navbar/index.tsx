@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
-import { Box, Container, Button, PaletteMode } from "@mui/material";
+import { Box, Container, Button, PaletteMode, Drawer } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,11 +25,7 @@ import { createCustomTheme } from "@/theme";
 import { ThemeProvider } from "@mui/material";
 const drawerWidth = 260;
 
-const navList = [
-  {
-    title: "Dashboard",
-  },
-];
+
 
 const openedMixin = (theme: any): CSSObject => ({
   width: drawerWidth,
@@ -41,7 +37,7 @@ const openedMixin = (theme: any): CSSObject => ({
   //   backgroundColor: theme.palette.primary.sideBarBg,
   backgroundColor: "transparent",
   borderRight: "1px solid #2369A6",
-  position: "relative",
+  //   position: "relative",
 });
 
 const closedMixin = (theme: any): CSSObject => ({
@@ -56,21 +52,20 @@ const closedMixin = (theme: any): CSSObject => ({
   },
   backgroundColor: "transparent",
   borderRight: "1px solid #2369A6",
-  position: "relative",
+  //   position: "relative",
 });
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  position: "fixed",
-  left: "42px",
-  background: "red",
-  top: "10%",
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
+// const DrawerHeader = styled("Box")(({ theme }) => ({
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "flex-end",
+//   padding: theme.spacing(0, 1),
+//   position: "absolute",
+//   background: "red",
+//   top: "10%",
+//   // necessary for content to be below app bar
+//   ...theme.mixins.toolbar,
+// }));
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -102,7 +97,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, {
+const SideDrawer = styled(Drawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,
@@ -131,11 +126,59 @@ export default function SideBar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  console.log("themeList-=-=-", themeList);
   const toggleTheme = () => {
     setMode(mode === "light" ? "dark" : "light");
   };
+  const navList = [
+    {
+      title: "Dashboard",
+      images:"/images/sidebar/dark/home.svg"
+    },
+    {
+      title: "Trade",
+      images:"/images/sidebar/dark/trade.svg"
+    },
+    {
+      title: "Launchpad",
+      images:"/images/sidebar/dark/launchpad.svg"
+    },
+    {
+      title: "Earn",
+      images:"/images/sidebar/dark/earn.svg"
+    },
+    {
+      title: "Stats",
+      images:"/images/sidebar/dark/stats.svg"
+    },
+    {
+      title: "Staking",
+      images:"/images/sidebar/dark/staking.svg"
+    },
+    {
+      title: "Airdrop",
+      images:"/images/sidebar/dark/airdrop.svg"
+    },
+    {
+      title: "Token Creation",
+      images:"/images/sidebar/dark/token.svg"
+    },
+    {
+      title: "Referral",
+      images:"/images/sidebar/dark/referral.svg"
+    },
+    {
+      title: "Dao",
+      images:"/images/sidebar/dark/dao.svg"
+    },
+    {
+      title: "Nft",
+      images:"/images/sidebar/dark/nft.svg"
+    },
+    {
+      title: "Multi Sender",
+      images:"/images/sidebar/dark/multisender.svg"
+    },
+  ];
 
   return (
     <ThemeProvider theme={themeList}>
@@ -144,34 +187,44 @@ export default function SideBar() {
           display: "flex",
           background:
             mode === "light" ? "#fff " : "url(/images/dashboardbg_dark.png)",
+          backgroundSize: "cover",
+          height: "100dvh",
         }}
       >
         <CssBaseline />
         <AppBar position="fixed" open={open}>
           <Toolbar>
-            <Button  variant="contained" color="primary">
+            <Button variant="contained" color="primary">
               Connect Wallet
             </Button>
             <Button
               variant="contained"
               color="secondary"
               onClick={() => toggleTheme()}
-             
             >
               Dark
             </Button>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open} style={{ zIndex: "1111" }}>
-          <DrawerHeader>
+
+        <SideDrawer variant="permanent" open={open} style={{ zIndex: "1111" }}>
+          <Box
+            style={{
+              zIndex: "11111",
+              position: "fixed",
+
+              top: open ? "10%" : "21%",
+            }}
+            top={0}
+            left={open ? "232px" : "77px"}
+          >
             <IconButton
               sx={{
-                marginRight: 5,
                 ...(!open && { display: "none" }),
               }}
               onClick={handleDrawerClose}
             >
-              <ChevronLeftIcon />
+              <img src="/images/sidebar/dark_arrow.svg" />
             </IconButton>
             <IconButton
               color="inherit"
@@ -182,30 +235,26 @@ export default function SideBar() {
                 ...(open && { display: "none" }),
               }}
             >
-              <ChevronRightIcon />
+              <img src="/images/sidebar/dark_left_arrow.svg" />
             </IconButton>
-          </DrawerHeader>
-          <Box className="displayCenter">
+          </Box>
+          <Box className="displayCenter" minHeight="200px">
             <Logo />
           </Box>
+          {!open && (
+            <Box className="displayCenter" style={{ paddingBottom: "64px" }}>
+              <img
+                height="51px"
+                width="24px"
+                src="/images/sidebar/dark_close.svg"
+              />
+            </Box>
+          )}
 
           <List>
-            {[
-              "Dashboard",
-              "Trade",
-              "Launchpad",
-              "Earn",
-              "Stats",
-              "Staking",
-              "Airdrop",
-              "Token Creation",
-              "Referral",
-              "Dao",
-              "Nft",
-              "Multi Sender",
-            ].map((text, index) => (
+            {navList.map((text, index) => (
               <ListItem
-                key={text}
+                key={index}
                 disablePadding
                 sx={{ display: "block", padding: "0px 22px" }}
               >
@@ -216,8 +265,9 @@ export default function SideBar() {
                     px: 2.5,
                     borderRadius: "4px",
                     background:
-                      text === "Dashboard" &&
-                      "linear-gradient(83deg, #00B7FF 16.38%, #0D1439 130.83%)",
+                      text.title === "Dashboard"
+                        ? "linear-gradient(83deg, #00B7FF 16.38%, #0D1439 130.83%)"
+                        : "",
                     backdropFilter: "blur(18px)",
                   }}
                 >
@@ -228,17 +278,17 @@ export default function SideBar() {
                       justifyContent: "center",
                     }}
                   >
-                    {index % 2 === 0 ? <Home /> : <MailIcon />}
+                    <img src={text.images} />
                   </ListItemIcon>
                   <ListItemText
-                    primary={text}
-                    sx={{ display: open ? "block" : "none" }}
+                    primary={text.title}
+                    sx={{color:mode==="dark"? "white":"black", display: open ? "block" : "none" }}
                   />
                 </ListItemButton>
               </ListItem>
             ))}
           </List>
-        </Drawer>
+        </SideDrawer>
       </Box>
     </ThemeProvider>
   );

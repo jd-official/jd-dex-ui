@@ -4,7 +4,7 @@ import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import _ from "lodash";
 const themesOptions = [
   {
-    name: "LIGHT",
+    name: "light",
     overrides: {
       paper: {
         background: "#EDEDED",
@@ -34,7 +34,6 @@ const themesOptions = [
         styleOverrides: {
           containedSecondary: {
             color: "#fff",
-
             borderRadius: "4px",
             backgroundColor: "#182340",
             backdropFilter: "blur(18px)",
